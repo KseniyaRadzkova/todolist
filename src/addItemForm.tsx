@@ -1,4 +1,6 @@
 import React, {useState, KeyboardEvent, ChangeEvent} from 'react';
+import {IconButton, TextareaAutosize, TextField} from "@material-ui/core";
+import {AddBox} from "@material-ui/icons";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -6,14 +8,17 @@ type AddItemFormPropsType = {
 
 function AddItemForm(props: AddItemFormPropsType) {
     const [title, setTitle] = useState<string>("")
-    const [error,setError] =useState<string | null>(null)
+    const [error,setError] =useState<boolean>(false)
 
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
-        setError(null)
+
     }
     const onKeyPressAddTask = (e:KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") addItem()
+        setError(false)
+        if (e.key === "Enter") {
+            addItem()
+        }
     }
     const addItem = () => {
         const trimmedTitle = title.trim()
@@ -21,20 +26,28 @@ function AddItemForm(props: AddItemFormPropsType) {
             props.addItem(trimmedTitle)
             setTitle( "")
         } else {
-            setError("Title is required")
+            setError(true)
         }
         setTitle("")
     }
 
     return (
         <div>
-            <input
-                value={title}
-                onChange={changeTitle}
-                onKeyPress={onKeyPressAddTask}
-                className={error ? "error" : ""}/>
-            <button onClick={addItem}>+</button>
-            {error&&<div className={"error-message"}>{error}</div>}
+            <TextField
+            variant={"outlined"}
+            value={title}
+            onChange={changeTitle}
+            onKeyPress={onKeyPressAddTask}
+            helperText={error ? "Title is required" : ""}
+            label={"Title"}
+            error={error}
+            />
+
+            <IconButton onClick={addItem}>
+                <AddBox />
+            </IconButton>
+                {/*<button onClick={addItem}>+</button>*/}
+            {/*{error&&<div className={"error-message"}>{error}</div>}*/}
         </div>
     )
 }
