@@ -7,7 +7,7 @@ import AddItemForm from "./addItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValueType
@@ -44,20 +44,12 @@ function App() {
         ]
     })
 
+    // functions for tasks:
     function removeTask(taskID: string, todoListID: string) {
         const todoListTasks = tasks[todoListID]
         tasks[todoListID] = todoListTasks.filter(t => t.id !== taskID)
         setTasks({...tasks})
     }
-
-    function changeFilter(newFilterValue: FilterValueType, todoListID: string) {
-        const todoList = todoLists.find(tl => tl.id === todoListID)
-        if (todoList) {
-            todoList.filter = newFilterValue
-            setTodoLists([...todoLists])
-        }
-    }
-
     function addTask(taskTitle: string, todoListID: string) {
         const newTask: TaskType = {
             id: v1(),
@@ -71,7 +63,6 @@ function App() {
         // const upDatedTasks = [newTask, ...tasks]
         // setTasks(upDatedTasks)
     }
-
     function changeStatus(taskID: string, isDone: boolean, todoListID: string) {
         const todoListTasks = tasks[todoListID]
         const task: TaskType | undefined = todoListTasks.find(t => t.id === taskID)
@@ -80,7 +71,6 @@ function App() {
             setTasks({...tasks})
         }
     }
-
     function changeTaskTitle(taskID: string, title: string, todoListID: string) {
         const todoListTasks = tasks[todoListID]
         const task: TaskType | undefined = todoListTasks.find(t => t.id === taskID)
@@ -90,12 +80,19 @@ function App() {
         }
     }
 
+    // functions for todoLists:
+    function changeFilter(newFilterValue: FilterValueType, todoListID: string) {
+        const todoList = todoLists.find(tl => tl.id === todoListID)
+        if (todoList) {
+            todoList.filter = newFilterValue
+            setTodoLists([...todoLists])
+        }
+    }
     function removeTodoList(todoListID: string) {
         setTodoLists(todoLists.filter(tl => tl.id !== todoListID))
         delete tasks[todoListID]
         setTasks({...tasks})
     }
-
     function addTodoList(title: string) {
         const newTodoListID = v1()
         const newTodoList: TodoListType = {
@@ -104,7 +101,6 @@ function App() {
         setTodoLists([newTodoList, ...todoLists])
         setTasks({...tasks, [newTodoListID]: []})
     }
-
     function changeTodoListTitle(title: string, todoListID: string) {
         const todoList = todoLists.find(tl => tl.id === todoListID)
         if (todoList) {
@@ -161,7 +157,12 @@ function App() {
                 </Grid>
                 <Grid container spacing={4} >
                     {ListTodos}
-                </Grid>
+                </Grid>-+
+
+
+
+
+
             </Container>
         </div>
     );
