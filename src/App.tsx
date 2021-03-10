@@ -13,7 +13,7 @@ export type TodoListType = {
     filter: FilterValueType
 }
 
-type TaskStateType = {
+export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
@@ -28,7 +28,7 @@ function App() {
         {id: todoListID1, title: "What to learn", filter: "all"},
         {id: todoListID2, title: "What to buy", filter: "all"}
     ])
-    const [tasks, setTasks] = useState<TaskStateType>({
+    const [tasks, setTasks] = useState<TasksStateType>({
         [todoListID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
