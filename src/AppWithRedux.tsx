@@ -1,35 +1,30 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import TodoList, {TaskType} from './Todolist';
+import TodoList from './Todolist';
 import AddItemForm from "./addItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
     AddTodoListAC,
     ChangeFilterAC,
-    ChangeTodoListTitleAC,
-    RemoveTodolistAC,
+    ChangeTodoListTitleAC, FilterValueType,
+    RemoveTodolistAC, TodolistDomainType,
 } from "./reducers/tl-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./reducers/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
+import {TaskStatuses, TaskType} from "./api/todolist-api";
 
-export type TodoListType = {
-    id: string
-    title: string
-    filter: FilterValueType
-}
+
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-export type FilterValueType = "all" | "active" | "completed"
-
 function AppWithRedux() {
     const dispatch = useDispatch()
 
-    let todoLists = useSelector<AppRootStateType, TodoListType[]>(state => state.todoLists)
+    let todoLists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todoLists)
     let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
     // functions for tasks:
@@ -56,8 +51,8 @@ function AppWithRedux() {
         // const upDatedTasks = [newTask, ...tasks]
         // setTasks(upDatedTasks)
     },[dispatch])
-    const changeStatus = useCallback ((taskID: string, isDone: boolean, todoListID: string) => {
-        dispatch(changeTaskStatusAC(taskID, isDone, todoListID))
+    const changeStatus = useCallback ((taskID: string, status: TaskStatuses, todoListID: string) => {
+        dispatch(changeTaskStatusAC(taskID, status, todoListID))
         // const todoListTasks = tasks[todoListID]
         // const task: TaskType | undefined = todoListTasks.find(t => t.id === taskID)
         // if (task) {
@@ -153,7 +148,7 @@ function AppWithRedux() {
                             </Grid>
                         )
                     })}
-                </Grid>-+
+                </Grid>
 
             </Container>
         </div>
