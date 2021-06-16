@@ -36,7 +36,7 @@ export const TodolistsList: React.FC = () => {
         dispatch(updateTaskTC(todolistId, taskId, {status}))
     }, [dispatch])
     const changeTaskTitle = useCallback((taskID: string, title: string, todolistId: string) => {
-        dispatch(updateTaskTC(taskID, todolistId, {title}))
+        dispatch(updateTaskTC( todolistId, taskID, {title}))
     }, [dispatch])
 
     // functions for todoLists:
@@ -50,12 +50,12 @@ export const TodolistsList: React.FC = () => {
         dispatch(addTodosTC(title))
     }, [dispatch])
     const changeTodoListTitle = useCallback((todoListID: string, title: string) => {
-        dispatch(changeTodosTitleTC(todoListID, title))
+        dispatch(changeTodosTitleTC( title, todoListID))
     }, [dispatch])
 
     return <>
         <Grid container style={{padding: "15px"}}>
-            <AddItemForm addItem={addTodoList}/>
+            <AddItemForm addItem={addTodoList} />
         </Grid>
         <Grid container spacing={4}>
             {
@@ -71,6 +71,7 @@ export const TodolistsList: React.FC = () => {
                                     title={tl.title}
                                     tasks={tasksForTodolist}
                                     filter={tl.filter}
+                                    entityStatus={tl.entityStatus}
                                     removeTodoList={removeTodoList}
                                     addTask={addTask}
                                     removeTask={removeTask}
