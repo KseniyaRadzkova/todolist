@@ -3,7 +3,6 @@ import {todolistApi, TodoListType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
 import {
     RequestStatusType,
-    setAppErrorAC,
     SetAppErrorActionType,
     setAppStatusAC,
     SetAppStatusActionType
